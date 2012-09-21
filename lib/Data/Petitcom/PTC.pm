@@ -122,6 +122,7 @@ sub restore {
 }
 
 sub is_ptc {
+    my $class = shift;
     return 1 if ( bytes::substr( $_[0], 0, 4 ) eq PTC_SIGNATURE );
 }
 
