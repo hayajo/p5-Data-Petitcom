@@ -105,7 +105,7 @@ sub dump {
 sub load {
     my $self    = ref $_[0] ? shift : shift->new;
     my $raw_ptc = shift;
-    Carp::croak "unsupported data:" unless ( is_ptc($raw_ptc) );
+    Carp::croak "unsupported data:" unless ( $self->is_ptc($raw_ptc) );
     my $r_int = unpack 'I', bytes::substr( $raw_ptc, PTC_OFFSET_RESOURCE, 4 );
     $self->resource(List::Util::first { PTC_RESOURCE->{$_} == $r_int } keys %{ PTC_RESOURCE() });
     $self->name( bytes::substr $raw_ptc, PTC_OFFSET_NAME, 8 );
