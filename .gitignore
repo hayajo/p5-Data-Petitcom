@@ -10,7 +10,7 @@ nytprof.out
 MANIFEST.bak
 *.sw[po]
 .carton/
-.carton.lock
+carton.lock
 local/
 *~
 junk/
