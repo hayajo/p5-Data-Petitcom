@@ -22,6 +22,7 @@ sub save {
     my $ptc  = Data::Petitcom::PTC->new(
         resource => RESOUECE,
         name     => $name,
+        version  => 'PETC0100',
     );
     my $bmp    = Load( $self->data );
     my $rgb555 = RGB888toRGB555( $bmp->{colormap} );
