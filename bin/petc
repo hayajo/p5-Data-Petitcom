@@ -91,7 +91,7 @@ sub qrcode {
     my $opts = $c->options;
     my $qrcode = QRCode( $src_raw, %$opts );
 
-    if ( $opts->{type} eq 'image' ) {
+    if ( $opts->{type} && $opts->{type} eq 'image' ) {
         require GD::Tiler;
         my $image = GD::Tiler->tile(
             Images       => $qrcode,
