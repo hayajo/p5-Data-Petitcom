@@ -15,8 +15,26 @@ App::Rad->run;
 sub setup {
     my $c = shift;
     $c->unregister_command('help');
-    my $commands = { map { ( $_, $config->{$_}->{inline_help} ) } keys %$config };
+    my $commands = +{
+        map { ( $_, $config->{$_}->{inline_help} ) } keys %$config
+    };
     $c->register_commands($commands);
+}
+
+sub pre_process {
+    my $c = shift;
+    return if ( $c->cmd eq 'help' || !$c->options->{help} );
+    unshift @{ $c->argv }, $c->cmd;
+    $c->execute('help');
+}
+
+sub post_process {
+    my $c = shift;
+    if ($c->cmd eq 'help' ) {
+        print STDERR $c->output() . $/ if ($c->output());
+        exit 1;
+    }
+    print $c->output() . $/ if ($c->output());
 }
 
 sub help {
@@ -28,21 +46,11 @@ sub help {
     return App::Rad::Help::help($c);
 }
 
-sub _sub_cmdstr {
-    my ($str, $subcmd) = @_;
-    $str =~ s/\b?#CMD\b/$0/g;
-    $str =~ s/\b?#SUBCMD\b/$subcmd/g;
-    return $str;
-}
-
 sub load {
     my $c = shift;
 
     my ($ptc_file, $out_file) = @{ $c->argv };
-    if ( !$ptc_file || !$out_file ) {
-        $c->execute('help');
-        return undef;
-    }
+    _subcmd_help($c) if ( !$ptc_file || !$out_file );
 
     my $opts = $c->options;
     my $data_raw = LoadFile( $ptc_file, %$opts );
@@ -58,10 +66,7 @@ sub save {
     my $c = shift;
 
     my ($data_file, $out_file) = @{ $c->argv };
-    if ( !$out_file || !$data_file ) {
-        $c->execute('help');
-        return undef;
-    }
+    _subcmd_help($c) if ( !$out_file || !$data_file );
 
     my $data_fh = file($data_file)->open('<')
         or die "open failed: $!";
@@ -77,10 +82,7 @@ sub qrcode {
     my $c = shift;
 
     my ($src_file) = @{ $c->argv };
-    unless ($src_file) {
-        $c->execute('help');
-        return undef
-    }
+    _subcmd_help($c) unless ($src_file);
 
     my $src_fh = file($src_file)->open('<')
         or die "open failed: $!";
@@ -106,6 +108,19 @@ sub qrcode {
     }
 
     return undef;
+}
+
+sub _sub_cmdstr {
+    my ($str, $subcmd) = @_;
+    $str =~ s/\b?#CMD\b/$0/g;
+    $str =~ s/\b?#SUBCMD\b/$subcmd/g;
+    return $str;
+}
+
+sub _subcmd_help {
+    my $c = shift;
+    unshift @{ $c->argv }, $c->cmd;
+    $c->execute('help');
 }
 
 __DATA__
