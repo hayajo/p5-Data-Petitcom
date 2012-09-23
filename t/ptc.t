@@ -22,7 +22,7 @@ subtest 'resource' => sub {
 
 subtest 'name' => sub {
     my $ptc = Data::Petitcom::PTC->new;
-    is $ptc->name, 'D_PTC';
+    is $ptc->name, 'DPTC';
     is $ptc->name('abcdefgh'), 'ABCDEFGH';
     is $ptc->name('abcdefgh0123456789'), 'ABCDEFGH';
     dies_ok { ptc->name('this is invalid-name !') };
@@ -50,7 +50,7 @@ subtest 'load/restore/dump' => sub {
 
     subtest 'load' => sub {
         is $ptc->resource, 'PRG';
-        is $ptc->name,     'D_PTC';
+        is $ptc->name,     'DPTC_PRG';
         is $ptc->version,  'PETC0300';
         ok $ptc->data;
     };

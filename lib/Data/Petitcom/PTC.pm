@@ -29,7 +29,7 @@ my %defaults = (
     data     => '',
     resource => 'PRG',
     version  => 'PETC0300',
-    name     => 'D_PTC',
+    name     => 'DPTC',
 );
 
 sub new {

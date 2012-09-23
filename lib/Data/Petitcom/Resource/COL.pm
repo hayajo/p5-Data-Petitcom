@@ -13,7 +13,7 @@ use constant RESOUECE            => 'COL';
 use constant PTC_OFFSET_DATA     => 0x0C;
 use constant PTC_COLORMAP_LENGTH => 512;     # RGB555(16bit) x 256colors
 use constant COLORMAP_COLS       => 16;
-
+use constant PTC_NAME            => 'DPTC_COL';
 
 sub save {
     my $self = shift;
@@ -21,7 +21,7 @@ sub save {
     my $name = delete $opts{name};
     my $ptc  = Data::Petitcom::PTC->new(
         resource => RESOUECE,
-        name     => $name,
+        name     => $name || PTC_NAME,
         version  => 'PETC0100',
     );
     my $bmp    = Load( $self->data );

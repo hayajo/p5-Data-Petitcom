@@ -8,6 +8,7 @@ use parent qw{ Data::Petitcom::Resource::GRP };
 use constant RESOURCE   => 'CHR';
 use constant BMP_WIDTH  => 256;
 use constant BMP_HEIGHT => 64;
+use constant PTC_NAME   => 'DPTC_CHR';
 
 sub save {
     my $self   = shift;

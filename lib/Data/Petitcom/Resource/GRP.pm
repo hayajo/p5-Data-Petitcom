@@ -12,6 +12,7 @@ use Data::Petitcom::BMP qw{ Load BMP2DATA DATA2BMP };
 use constant RESOURCE   => 'GRP';
 use constant BMP_WIDTH  => 256;
 use constant BMP_HEIGHT => 192;
+use constant PTC_NAME   => 'DPTC_GRP';
 
 sub data {
     my $self  = shift;
@@ -29,7 +30,7 @@ sub save {
     my $self = shift;
 
     my %opts     = @_;
-    my $name     = delete $opts{name};
+    my $name     = delete $opts{name} || $self->PTC_NAME();
     my $sp_width = ( $self->RESOURCE() eq 'GRP' )
         ? 64
         : delete $opts{sp_width} || 16;

@@ -13,11 +13,12 @@ use bytes ();
 
 use constant RESOUECE        => 'PRG';
 use constant PTC_OFFSET_CODE => 0x18;
+use constant PTC_NAME        => 'DPTC_PRG';
 
 sub save {
     my $self = shift;
     my %opts = @_;
-    my $name     = delete $opts{name};
+    my $name     = delete $opts{name} || PTC_NAME;
     my $encoding = delete $opts{encoding};
     my $ptc = $self->_create_ptc($name, $encoding);
     return $ptc;
