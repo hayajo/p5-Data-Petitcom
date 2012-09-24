@@ -6,6 +6,7 @@ perl_version '5.010';
 
 requires(
     'App::Rad'          => 1.04,
+    'Compress::Zlib'    => 2.048,
     'GD'                => 2.46,
     'GD::Barcode'       => 1.15,
     'GD::Tiler'         => 0.11,
