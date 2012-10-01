@@ -94,8 +94,8 @@ sub data {
 sub dump {
     my $self = shift;
     my $header .= PTC_SIGNATURE;
-    $header .= pack 'I', bytes::length( $self->data );
-    $header .= pack 'I', PTC_RESOURCE->{ $self->resource };
+    $header .= pack 'V', bytes::length( $self->data );
+    $header .= pack 'V', PTC_RESOURCE->{ $self->resource };
     $header .= bytes::substr $self->name . "\x00" x PTC_NAME_MAXLENGTH, 0, PTC_NAME_MAXLENGTH;
     $header .= Digest::MD5::md5(PTC . $self->data);
     my $raw_ptc = $header . $self->data;
@@ -106,7 +106,7 @@ sub load {
     my $self    = ref $_[0] ? shift : shift->new;
     my $raw_ptc = shift;
     Carp::croak "unsupported data:" unless ( $self->is_ptc($raw_ptc) );
-    my $r_int = unpack 'I', bytes::substr( $raw_ptc, PTC_OFFSET_RESOURCE, 4 );
+    my $r_int = unpack 'V', bytes::substr( $raw_ptc, PTC_OFFSET_RESOURCE, 4 );
     $self->resource(List::Util::first { PTC_RESOURCE->{$_} == $r_int } keys %{ PTC_RESOURCE() });
     $self->name( bytes::substr $raw_ptc, PTC_OFFSET_NAME, 8 );
     $self->version( bytes::substr $raw_ptc, PTC_OFFSET_VERSION, 8 );
