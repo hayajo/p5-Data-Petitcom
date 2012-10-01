@@ -178,7 +178,7 @@ Reads the PTC from a file.
 
 =head1 AUTHOR
 
-hayajo
+hayajo <hayajo@cpan.org>
 
 =head1 SEE ALSO
 
