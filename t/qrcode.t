@@ -63,10 +63,15 @@ subtest 'plot' => sub {
         },
     };
     for my $type ( keys %$types ) {
-        my $qr = Data::Petitcom::QRCode->new( type => $type );
-        my $qrcode = $qr->plot($ptc_raw);
-        cmp_ok @$qrcode, '==', 1;
-        ok $types->{$type}->( $qrcode->[0] );
+        subtest $type => sub {
+            if ( $type eq 'image' && ( $^O eq 'MSWin32' || $^O eq 'cygwin') ) {
+                plan skip_all => 'skip the test of GD.dll in Windows';
+            }
+            my $qr = Data::Petitcom::QRCode->new( type => $type );
+            my $qrcode = $qr->plot($ptc_raw);
+            cmp_ok @$qrcode, '==', 1;
+            ok $types->{$type}->( $qrcode->[0] );
+        };
     }
 
     subtest 'plot_qrcode' => sub {

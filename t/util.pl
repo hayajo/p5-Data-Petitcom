@@ -7,8 +7,9 @@ use Path::Class;
 
 sub LoadData {
     my $filename = shift;
-    my $file = file( dirname(__FILE__), '_data', $filename );
-    return scalar( $file->slurp );
+    my $fh = file( dirname(__FILE__), '_data', $filename )->openr();
+    $fh->binmode;
+    return scalar( do { local $/; <$fh> } );
 }
 
 1;

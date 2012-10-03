@@ -57,6 +57,7 @@ sub load {
 
     my $fh = file($out_file)->open('>')
         or die "open failed: $!";
+    $fh->binmode;
     $fh->print($data_raw);
 
     return undef;

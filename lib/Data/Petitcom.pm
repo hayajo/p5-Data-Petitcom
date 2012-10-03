@@ -3,7 +3,7 @@ package Data::Petitcom;
 use 5.10.0;
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use parent qw{ Exporter };
 our @EXPORT      = qw{ Save Load QRCode };
@@ -69,6 +69,7 @@ sub SaveFile {
         ? $save_file
         : file($save_file)->open('>') || Carp::croak "open failed: $!";
     my $raw_ptc = Save($raw_data, @_);
+    binmode $save_fh;
     print $save_fh $raw_ptc;
 }
 
@@ -78,6 +79,7 @@ sub LoadFile {
         = ( ref $load_file eq 'GLOB' )
         ? $load_file
         : file($load_file)->open('<') || Carp::croak "open failed: $!";
+    binmode $load_fh;
     my $raw_data = Load( do { local $/; <$load_fh> }, @_ );
     return $raw_data;
 }
