@@ -92,7 +92,7 @@ __END__
 
 =head1 NAME
 
-Data::Petitcom - Data converter for Petitcom mkII
+Data::Petitcom - Data converter for プチコンmkII / Petit Computer
 
 =head1 SYNOPSIS
 
