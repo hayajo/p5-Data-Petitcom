@@ -2,7 +2,7 @@ use inc::Module::Install;
 name 'Data-Petitcom';
 all_from 'lib/Data/Petitcom.pm';
 
-perl_version '5.010';
+perl_version '5.010001';
 
 requires(
     'App::Rad'          => 1.04,

@@ -135,26 +135,25 @@ use warnings;
             $a_qr_bin .= Digest::MD5::md5($qr_bin);
             $a_qr_bin .= $a_qr_data;
 
-            my $qrcode = do {
-                given ($plot_type) {
-                    when ('term') {
-                        GD::Barcode::QRcode::Text->new( $a_qr_bin, $qr_opts )->term;
-                    }
-                    when ('image') {
-                        my $gd = GD::Barcode::QRcode->new( $a_qr_bin, $qr_opts )->plot;
-                        $gd->string(
-                            GD::Font->Large,
-                            5, 2,    # 0, 0 => left-top
-                            "$count_qr / $number_of_qr",
-                            $gd->colorAllocate( 0, 0, 0 ),    # black
-                        );
-                        $gd->png;
-                    }
-                    default {
-                        GD::Barcode::QRcode::Text->new( $a_qr_bin, $qr_opts )->barcode;
-                    }
+            my $qrcode = undef;
+            given ($plot_type) {
+                when ('term') {
+                    $qrcode = GD::Barcode::QRcode::Text->new( $a_qr_bin, $qr_opts )->term;
                 }
-            };
+                when ('image') {
+                    my $gd = GD::Barcode::QRcode->new( $a_qr_bin, $qr_opts )->plot;
+                    $gd->string(
+                        GD::Font->Large,
+                        5, 2,    # 0, 0 => left-top
+                        "$count_qr / $number_of_qr",
+                        $gd->colorAllocate( 0, 0, 0 ),    # black
+                    );
+                    $qrcode = $gd->png;
+                }
+                default {
+                    $qrcode = GD::Barcode::QRcode::Text->new( $a_qr_bin, $qr_opts )->barcode;
+                }
+            }
             push @qrcode, $qrcode;
         }
 

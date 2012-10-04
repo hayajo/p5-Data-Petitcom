@@ -1,5 +1,8 @@
 Revision history for Perl extension Data::Petitcom
 
+0.03
+        - fixed bug
+
 0.02
         - support Windows
 

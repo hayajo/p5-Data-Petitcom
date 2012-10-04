@@ -3,7 +3,7 @@ package Data::Petitcom;
 use 5.10.0;
 use strict;
 use warnings;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use parent qw{ Exporter };
 our @EXPORT      = qw{ Save Load QRCode };
@@ -41,17 +41,16 @@ sub QRCode {
     my $qr_ecc     = delete $opts{ecc};
     my $qr_version = delete $opts{version};
 
-    my $raw_ptc = do {
-        given ($ptc) {
-            when ( ref $ptc eq 'Data::Petitcom::PTC' ) {
-                $ptc->dump;
-            }
-            when ( ! Data::Petitcom::PTC->is_ptc($ptc) ) {
-                Save($ptc, %opts);
-            }
-            default { $ptc }
+    my $raw_ptc = undef;
+    given ($ptc) {
+        when ( ref $ptc eq 'Data::Petitcom::PTC' ) {
+            $raw_ptc = $ptc->dump;
         }
-    };
+        when ( ! Data::Petitcom::PTC->is_ptc($ptc) ) {
+            $raw_ptc = Save($ptc, %opts);
+        }
+        default { $raw_ptc = $ptc }
+    }
 
     my $qr = Data::Petitcom::QRCode->new(
         type    => $qr_type,
