@@ -127,7 +127,7 @@ Data::Petitcom - Data converter for プチコンmkII / Petit Computer
 
 =head1 DESCRIPTION
 
-Data::Petitcom is data converter for Petitcom mkII.
+Data::Petitcom is data converter for プチコンmkII / Petit Computer.
 
 following resources supported.
 
