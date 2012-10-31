@@ -1,4 +1,5 @@
 use inc::Module::Install;
+use Module::Install::Repository;
 name 'Data-Petitcom';
 all_from 'lib/Data/Petitcom.pm';
 
